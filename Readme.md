@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Василий](https://up.htmlacademy.ru/javascript/19/user/1175789).
-* Наставник: `Неизвестно`.
+* Наставник: [Дмитрий Железцов](https://up.htmlacademy.ru/adaptive/18/user/983299).
 
 ---
 
