@@ -2,81 +2,52 @@
 
 document.querySelector('.map').classList.remove('map--faded');
 
-var cards = {
-  author: {avatar: ['img/avatars/user01.png',
-    'img/avatars/user02.png',
-    'img/avatars/user03.png',
-    'img/avatars/user04.png',
-    'img/avatars/user05.png',
-    'img/avatars/user06.png',
-    'img/avatars/user07.png',
-    'img/avatars/user08.png']},
-  offer: {
-    title: ['Красивая уютная квартира',
+
+
+
+
+for (var i = 1; i <= 8; i++) {
+  var AUTHOR = {avatar: 'img/avatars/user0' + i + '.png'};
+}
+
+var titles = ['Красивая уютная квартира',
       'Большой загородный дом',
       'Обычный серый дом',
       'Огромный золотой дворец',
       'Уютная семейная квартирка',
       'Стандартный деревянный дом',
       'Нестандартный дом из кирпича',
-      'Загородный коттедж'
-    ],
-    address: ['600, 350',
-      '500, 350',
-      '400, 450',
-      '300, 550',
-      '200, 250',
-      '600, 450',
-      '500, 550',
-      '400, 450'],
-    price: ['1000',
-      '2000',
-      '3000',
-      '4000',
-      '5000',
-      '6000',
-      '7000',
-      '8000'],
-    type: ['palace',
-      'flat',
-      'house',
-      'bungalo'],
-    rooms: ['',
-      '2',
-      '3',
-      '4',
-      '5',
-      '6',
-      '7',
-      '8'],
-    guests: ['11',
-      '12',
-      '13',
-      '14',
-      '15',
-      '16',
-      '17',
-      '18'],
-    checkin: ['12:00',
-      '13:00',
-      '14:00'],
-    checkout: ['12:00',
-      '13:00',
-      '14:00'],
-    features: ['wifi',
-      'dishwasher',
-      'parking',
-      'washer',
-      'elevator',
-      'conditioner'],
-    description: [],
-    photos: ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
-      'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
-      'http://o0.github.io/assets/images/tokyo/hotel3.jpg']
-  },
-  location: {x: [], y: []},
+      'Загородный коттедж'];
+
+var prices = function () {
+  return Math.floor(Math.random() * 1000);
 };
 
-var mapPinTemplate = document.querySelector('#pin')
-  .content
-  .querySelector('.map_pin');
+var type = ['palace',
+      'flat',
+      'house',
+      'bungalo'];
+
+var room = function () {
+  return Math.floor(Math.random() * 10);
+};
+
+var guests = function () {
+  return Math.floor(Math.random() * 15);
+};
+
+var checkin = ['12:00', '13:00', '14:00'];
+
+var checkout = ['12:00', '13:00', '14:00'];
+
+var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+
+var AdObj = {
+  author: AUTHOR,
+  offer: {
+    title: titles,
+    price: prices,
+
+  },
+  location: {x:, y: }
+};
