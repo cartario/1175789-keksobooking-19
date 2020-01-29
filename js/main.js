@@ -62,32 +62,14 @@ var getRandomInteger = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
-var locationX = [
-  getRandomInteger (130, 630),
-  getRandomInteger (130, 630),
-  getRandomInteger (130, 630),
-  getRandomInteger (130, 630),
-  getRandomInteger (130, 630),
-  getRandomInteger (130, 630),
-  getRandomInteger (130, 630),
-  getRandomInteger (130, 630)];
-
-var locationY = [
-  getRandomInteger (130, 630),
-  getRandomInteger (130, 630),
-  getRandomInteger (130, 630),
-  getRandomInteger (130, 630),
-  getRandomInteger (130, 630),
-  getRandomInteger (130, 630),
-  getRandomInteger (130, 630),
-  getRandomInteger (130, 630)];
+var locationX = [];
+var locationY = [];
 
 for (var k = 0; k < 8; k++) {
-  var LOCATION = {X: getRandomInteger (130, 630), Y: getRandomInteger (130, 630)};
-};
+  locationX[k] = getRandomInteger(130, 630);
+  locationY[k] = getRandomInteger(130, 630);
+}
 
-
-// for (var i = 0; i < TOTAL_ADVERTS; i++) {
 var generateRandomAdvert = {author: AVATAR,
   title: TITLES,
   type: TYPE,
