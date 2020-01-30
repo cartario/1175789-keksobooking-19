@@ -60,28 +60,12 @@ var getRandomInteger = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
-var locationX = [];
-var locationY = [];
-
 var X_LOCATION_START = 1;
 var X_LOCATION_END = 1200;
 var Y_LOCATION_START = 130;
 var Y_LOCATION_END = 630;
 
-for (var k = 0; k < 8; k++) {
-  locationX[k] = getRandomInteger(X_LOCATION_START = 1, X_LOCATION_END);
-  locationY[k] = getRandomInteger(Y_LOCATION_START, Y_LOCATION_END);
-}
-
-// var createAdverts = function () {
-//   for (var k =0; k < TOTAL_ADVERTS; k++) {
-
-
-//   }
-
-// };
-
-var generateRandomAdvert = {author: AVATAR[0],
+var RandomAdvert = {author: AVATAR[0],
   title: TITLES[0],
   type: TYPE[getRandomInteger(0, TYPE.length)],
   checkin: CHECKIN[getRandomInteger(0, CHECKIN.length)],
@@ -95,9 +79,9 @@ var generateRandomAdvert = {author: AVATAR[0],
   location: {x: getRandomInteger(X_LOCATION_START, X_LOCATION_END), y: getRandomInteger(Y_LOCATION_START, Y_LOCATION_END)}
 };
 
-var generateRandomAdvertFunction = function (j) {
+var generateRandomAdverts = function (j) {
 
-  generateRandomAdvert = {author: AVATAR[j],
+  RandomAdvert = {author: AVATAR[j],
     title: TITLES[j],
     type: TYPE[getRandomInteger(0, TYPE.length)],
     checkin: CHECKIN[getRandomInteger(0, CHECKIN.length)],
@@ -110,7 +94,7 @@ var generateRandomAdvertFunction = function (j) {
     photos: PHOTOS[getRandomInteger(0, PHOTOS.length)],
     location: {x: getRandomInteger(X_LOCATION_START, X_LOCATION_END), y: getRandomInteger(Y_LOCATION_START, Y_LOCATION_END)}
   };
-  return generateRandomAdvert;
+  return RandomAdvert;
 };
 
 var similarListElement = document.querySelector('.map__pins');// находит блок куда вставлять
@@ -121,9 +105,9 @@ var similarPinTemplate = document.querySelector('#pin')// находит шаб�
 
 for (var i = 0; i < TOTAL_ADVERTS; i++) { // создает, наполняет данными и отрисовывает 8 копий узлов .map__pin из шаблона #pin
   var pinElement = similarPinTemplate.cloneNode(true); // клонирует шаблон - создает узел с классом .map__pin
-  pinElement.querySelector('img').src = generateRandomAdvertFunction(i).author; // в узле .map__pin находит тег img и заполняет данные в src из AVATAR
-  pinElement.querySelector('img').alt = generateRandomAdvertFunction(i).description; // в узле .map__pin находит тег img и заполняет данные в alt из description
-  pinElement.style.left = generateRandomAdvertFunction(i).location.x + 'px'; // в узле .map__pin заполняет данные в style.left (x) из locationX
-  pinElement.style.top = generateRandomAdvertFunction(i).location.y + 'px'; // в узле .map__pin заполняет данные в style.top (y) из locationY
+  pinElement.querySelector('img').src = generateRandomAdverts(i).author; // в узле .map__pin находит тег img и заполняет данные в src из AVATAR
+  pinElement.querySelector('img').alt = generateRandomAdverts(i).description; // в узле .map__pin находит тег img и заполняет данные в alt из description
+  pinElement.style.left = generateRandomAdverts(i).location.x + 'px'; // в узле .map__pin заполняет данные в style.left (x) из locationX
+  pinElement.style.top = generateRandomAdverts(i).location.y + 'px'; // в узле .map__pin заполняет данные в style.top (y) из locationY
   similarListElement.appendChild(pinElement); // отрисовывает в блоке .map__pins созданный узел .map__pin
 }
