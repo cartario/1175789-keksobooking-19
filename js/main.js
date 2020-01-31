@@ -65,23 +65,9 @@ var X_LOCATION_END = 1200;
 var Y_LOCATION_START = 130;
 var Y_LOCATION_END = 630;
 
-var RandomAdvert = {author: AVATAR[0],
-  title: TITLES[0],
-  type: TYPE[getRandomInteger(0, TYPE.length)],
-  checkin: CHECKIN[getRandomInteger(0, CHECKIN.length)],
-  checkout: CHECKOUT[getRandomInteger(0, CHECKOUT.length)],
-  features: FEATURES[getRandomInteger(0, FEATURES.length)],
-  price: getPrices(),
-  room: getRoom(),
-  guests: getGuests(),
-  description: DESCRIPTION[0],
-  photos: PHOTOS[getRandomInteger(0, PHOTOS.length)],
-  location: {x: getRandomInteger(X_LOCATION_START, X_LOCATION_END), y: getRandomInteger(Y_LOCATION_START, Y_LOCATION_END)}
-};
-
 var generateRandomAdverts = function (j) {
 
-  RandomAdvert = {author: AVATAR[j],
+  var RandomAdvert = {author: AVATAR[j],
     title: TITLES[j],
     type: TYPE[getRandomInteger(0, TYPE.length)],
     checkin: CHECKIN[getRandomInteger(0, CHECKIN.length)],
