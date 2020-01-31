@@ -85,9 +85,17 @@ var generateRandomAdverts = function (j) {
 
 var similarListElement = document.querySelector('.map__pins');// находит блок куда вставлять
 
+
 var similarPinTemplate = document.querySelector('#pin')// находит шаблон и его внут.блок
   .content
   .querySelector('.map__pin');
+
+var CardTemplate = document.querySelector('#card')
+  .content
+  .querySelector('.map__card')
+
+
+console.log(CardTemplate);
 
 for (var i = 0; i < TOTAL_ADVERTS; i++) { // создает, наполняет данными и отрисовывает 8 копий узлов .map__pin из шаблона #pin
   var pinElement = similarPinTemplate.cloneNode(true); // клонирует шаблон - создает узел с классом .map__pin
@@ -97,3 +105,8 @@ for (var i = 0; i < TOTAL_ADVERTS; i++) { // создает, наполняет 
   pinElement.style.top = generateRandomAdverts(i).location.y + 'px'; // в узле .map__pin заполняет данные в style.top (y) из locationY
   similarListElement.appendChild(pinElement); // отрисовывает в блоке .map__pins созданный узел .map__pin
 }
+
+var cardElement = CardTemplate.cloneNode(true);
+cardElement.querySelector('.popup__title').textContent = TITLES[0];
+
+similarListElement.appendChild(cardElement);
