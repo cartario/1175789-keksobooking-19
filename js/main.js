@@ -22,13 +22,13 @@ var TITLES = ['Красивая уютная квартира',
   'Нестандартный дом из кирпича',
   'Загородный коттедж'];
 
-var DESCRIPTION = ['Описание1', 'Описание2',
-  'Описание3',
-  'Описание4',
-  'Описание5',
-  'Описание6',
-  'Описание7',
-  'Описание8'];
+var DESCRIPTION = ['Самая привлекательное жилье', 'Больше только у Леди Гаги',
+  'С яркими стенами внутри',
+  'С золотым унитазом',
+  'С бассейном блекджеком и футбольным полем',
+  'Пожароустойчив и вообще норм',
+  'Лучшее предложение этой зимы',
+  'Загороднее только в Туле'];
 
 var TYPE = ['palace', 'flat', 'house', 'bungalo'];
 
@@ -47,16 +47,14 @@ var PIN = {
   HEIGHT: 70
 };
 
-var getPrices = function () {
-  return Math.floor(Math.random() * 1000);
+var PRICE = {MIN: 500, MAX: 5000};
+
+var getPrices = function (min, max) {
+  return Math.floor(Math.random() * (max / 100 - min / 100) + min / 100) * 100;
 };
 
 var getRoom = function () {
-  return Math.floor(Math.random() * 10);
-};
-
-var getGuests = function () {
-  return Math.floor(Math.random() * 15);
+  return Math.floor(Math.random() * 5 + 1);
 };
 
 var getRandomInteger = function (min, max) {
@@ -76,9 +74,9 @@ var createAdvert = function (j) { //  создает структуру одно
     checkin: CHECKIN[getRandomInteger(0, CHECKIN.length)],
     checkout: CHECKOUT[getRandomInteger(0, CHECKOUT.length)],
     features: FEATURES[getRandomInteger(0, FEATURES.length)],
-    price: getPrices(),
+    price: getPrices(PRICE.MIN, PRICE.MAX),
     room: getRoom(),
-    guests: getGuests(),
+    guests: getRoom() * 2 + 1,
     description: DESCRIPTION[j],
     photos: PHOTOS[getRandomInteger(0, PHOTOS.length)],
     location: {x: getRandomInteger(X_LOCATION_START, X_LOCATION_END) - PIN.WIDTH / 2, y: getRandomInteger(Y_LOCATION_START, Y_LOCATION_END) - PIN.HEIGHT}
@@ -98,16 +96,16 @@ var CardTemplate = document.querySelector('#card')// находит шаблон
   .querySelector('.map__card');
 
 var CardElement = CardTemplate.cloneNode(true);// клонирует шаблон
-CardElement.querySelector('.popup__title').textContent = createAdvert(0).title;
+CardElement.querySelector('.popup__title').textContent = createAdvert(4).title;
 CardElement.querySelector('.popup__text--address').textContent = createAdvert(0).address;
 CardElement.querySelector('.popup__text--price').textContent = createAdvert(0).price + '₽/ночь';
 CardElement.querySelector('.popup__type').textContent = createAdvert(0).type;
-CardElement.querySelector('.popup__text--capacity').textContent = createAdvert(0).room + 'комнаты для' + createAdvert(0).guests + 'гостей';
+CardElement.querySelector('.popup__text--capacity').textContent = createAdvert(0).room + ' комнаты для ' + createAdvert(0).guests + ' гостей';
 CardElement.querySelector('.popup__text--time').textContent = 'Заезд после' + createAdvert(0).checkin + ', выезд до' + createAdvert(0).checkout;
-CardElement.querySelector('.popup__features').textContent = createAdvert(0).features;
-CardElement.querySelector('.popup__description').textContent = createAdvert(0).description;
-CardElement.querySelector('.popup__photos').src = createAdvert(0).photos[0];
-CardElement.querySelector('.popup__avatar').src = createAdvert(0).author.AVATAR;
+// CardElement.querySelector('.popup__features').textContent = createAdvert(0).features;
+CardElement.querySelector('.popup__description').textContent = createAdvert(4).description;
+CardElement.querySelector('.popup__avatar').src = createAdvert(0).author;
+CardElement.querySelector('.popup__photo').src = createAdvert(0).photos;
 
 similarCardElement.appendChild(CardElement);
 
