@@ -1,7 +1,5 @@
 'use strict';
 
-document.querySelector('.map').classList.remove('map--faded');
-
 var TOTAL_ADVERTS = 8;
 
 var AVATAR = [
@@ -44,6 +42,11 @@ var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
+var PIN = {
+  WIDTH: 50,
+  HEIGHT: 70
+};
+
 var getPrices = function () {
   return Math.floor(Math.random() * 1000);
 };
@@ -65,7 +68,7 @@ var X_LOCATION_END = 1200;
 var Y_LOCATION_START = 130;
 var Y_LOCATION_END = 630;
 
-var generateRandomAdverts = function (j) {
+var createAdvert = function (j) { //  создает структуру одного обьявления
 
   var RandomAdvert = {author: AVATAR[j],
     title: TITLES[j],
@@ -78,32 +81,84 @@ var generateRandomAdverts = function (j) {
     guests: getGuests(),
     description: DESCRIPTION[j],
     photos: PHOTOS[getRandomInteger(0, PHOTOS.length)],
-    location: {x: getRandomInteger(X_LOCATION_START, X_LOCATION_END), y: getRandomInteger(Y_LOCATION_START, Y_LOCATION_END)}
+    location: {x: getRandomInteger(X_LOCATION_START, X_LOCATION_END) - PIN.WIDTH / 2, y: getRandomInteger(Y_LOCATION_START, Y_LOCATION_END) - PIN.HEIGHT}
   };
+  RandomAdvert.address = RandomAdvert.location.x + ', ' + RandomAdvert.location.y;
   return RandomAdvert;
 };
 
 var similarListElement = document.querySelector('.map__pins');// находит блок куда вставлять
-
-
 var similarPinTemplate = document.querySelector('#pin')// находит шаблон и его внут.блок
   .content
   .querySelector('.map__pin');
 
-var CardTemplate = document.querySelector('#card')
-  .content
-  .querySelector('.map__card');
+var createPinMap = function (pinData) { // создает структуру одной метки
+  var pinElement = similarPinTemplate.cloneNode(true);
+  pinElement.querySelector('img').src = pinData.author; // в узле .map__pin находит тег img и заполняет данные в src из AVATAR
+  pinElement.querySelector('img').alt = pinData.description;
+  pinElement.style.left = pinData.location.x + 'px'; // в узле .map__pin заполняет данные в style.left (x) из locationX
+  pinElement.style.top = pinData.location.y + 'px';
+  return pinElement;
+};
 
-for (var i = 0; i < TOTAL_ADVERTS; i++) { // создает, наполняет данными и отрисовывает 8 копий узлов .map__pin из шаблона #pin
-  var pinElement = similarPinTemplate.cloneNode(true); // клонирует шаблон - создает узел с классом .map__pin
-  pinElement.querySelector('img').src = generateRandomAdverts(i).author; // в узле .map__pin находит тег img и заполняет данные в src из AVATAR
-  pinElement.querySelector('img').alt = generateRandomAdverts(i).description; // в узле .map__pin находит тег img и заполняет данные в alt из description
-  pinElement.style.left = generateRandomAdverts(i).location.x + 'px'; // в узле .map__pin заполняет данные в style.left (x) из locationX
-  pinElement.style.top = generateRandomAdverts(i).location.y + 'px'; // в узле .map__pin заполняет данные в style.top (y) из locationY
-  similarListElement.appendChild(pinElement); // отрисовывает в блоке .map__pins созданный узел .map__pin
+var Adverts = [];// создает пустой массив
+for (var k = 0; k < TOTAL_ADVERTS; k++) {
+  Adverts[k] = createAdvert(k);// создает структуру обьявлений и записывает в нее данные
 }
 
-var cardElement = CardTemplate.cloneNode(true);
-cardElement.querySelector('.popup__title').textContent = TITLES[0];
+// var renderPinMap = function (numAdvert) { // отрисовывает конкретное обьявление
+//   var mapPinFragment = document.createDocumentFragment();
+//   mapPinFragment.appendChild(createPinMap(Adverts[numAdvert]));
+//   similarListElement.appendChild(mapPinFragment);
+// };
 
-similarListElement.appendChild(cardElement);
+var renderPinMaps = function () { // отрисовывает метки
+  var mapPinsFragment = document.createDocumentFragment();
+  for (var i = 0; i < Adverts.length; i++) {
+    mapPinsFragment.appendChild(createPinMap(Adverts[i]));
+  }
+  similarListElement.appendChild(mapPinsFragment);
+};
+
+renderPinMaps();
+
+var mapFilters = document.querySelector('.map__filters');
+var mapPinMain = document.querySelector('.map__pin--main');
+var adForm = document.querySelector('.ad-form');
+var adFormHeader = adForm.querySelector('.ad-form-header');
+var adFormElement = adForm.querySelectorAll('.ad-form__element');
+var addressInput = document.querySelector('#address');
+mapFilters.disabled = true;
+adFormHeader.disabled = true;
+
+
+var activateAdFormElement = function (bul) {
+  for (var m = 0; m < adFormElement.length; m++) {
+    adFormElement[m].disabled = bul;
+  }
+};
+
+activateAdFormElement(true);
+
+var activationForm = function () {
+  document.querySelector('.map').classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+  adFormHeader.disabled = false;
+  mapFilters.disabled = false;
+  activateAdFormElement(false);
+
+};
+
+mapPinMain.addEventListener('mousedown', function (evt) {
+  if (evt.which === 1) {
+    activationForm();
+  }
+});
+
+mapPinMain.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Enter') {
+    activationForm();
+  }
+});
+
+addressInput.value = createAdvert(getRandomInteger(0, TOTAL_ADVERTS)).address;
