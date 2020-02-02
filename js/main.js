@@ -92,6 +92,25 @@ var similarPinTemplate = document.querySelector('#pin')// находит шаб�
   .content
   .querySelector('.map__pin');
 
+var similarCardElement = document.querySelector('.map');// находит блок куда вставлять
+var CardTemplate = document.querySelector('#card')// находит шаблон и его внут.блок
+  .content
+  .querySelector('.map__card');
+
+var CardElement = CardTemplate.cloneNode(true);// клонирует шаблон
+CardElement.querySelector('.popup__title').textContent = createAdvert(0).title;
+CardElement.querySelector('.popup__text--address').textContent = createAdvert(0).address;
+CardElement.querySelector('.popup__text--price').textContent = createAdvert(0).price + '₽/ночь';
+CardElement.querySelector('.popup__type').textContent = createAdvert(0).type;
+CardElement.querySelector('.popup__text--capacity').textContent = createAdvert(0).room + 'комнаты для' + createAdvert(0).guests + 'гостей';
+CardElement.querySelector('.popup__text--time').textContent = 'Заезд после' + createAdvert(0).checkin + ', выезд до' + createAdvert(0).checkout;
+CardElement.querySelector('.popup__features').textContent = createAdvert(0).features;
+CardElement.querySelector('.popup__description').textContent = createAdvert(0).description;
+CardElement.querySelector('.popup__photos').src = createAdvert(0).photos[0];
+CardElement.querySelector('.popup__avatar').src = createAdvert(0).author.AVATAR;
+
+similarCardElement.appendChild(CardElement);
+
 var createPinMap = function (pinData) { // создает структуру одной метки
   var pinElement = similarPinTemplate.cloneNode(true);
   pinElement.querySelector('img').src = pinData.author; // в узле .map__pin находит тег img и заполняет данные в src из AVATAR
