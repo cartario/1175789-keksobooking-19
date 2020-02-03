@@ -105,7 +105,7 @@ CardElement.querySelector('.popup__text--time').textContent = 'Заезд пос
 // CardElement.querySelector('.popup__features').textContent = createAdvert(0).features;
 CardElement.querySelector('.popup__description').textContent = createAdvert(4).description;
 CardElement.querySelector('.popup__avatar').src = createAdvert(0).author;
-CardElement.querySelector('.popup__photo').src = createAdvert(0).photos;
+
 
 similarCardElement.appendChild(CardElement);
 
@@ -122,6 +122,23 @@ var Adverts = [];// создает пустой массив
 for (var k = 0; k < TOTAL_ADVERTS; k++) {
   Adverts[k] = createAdvert(k);// создает структуру обьявлений и записывает в нее данные
 }
+
+var popupPhotoTemplate = CardElement.querySelector('.popup__photo');
+popupPhotoTemplate.src = createAdvert(0).photos;
+var similarPopupPhotos = CardElement.querySelector('.popup__photos');// куда встявлять
+
+var renderPopupPhotos = function (data) {
+  var popupPhotoElement = popupPhotoTemplate.cloneNode(true);
+  popupPhotoElement.src = data.photos;
+  return popupPhotoElement;
+};
+
+
+var fragment = document.createDocumentFragment();
+fragment.appendChild(renderPopupPhotos(createAdvert(0)));
+fragment.appendChild(renderPopupPhotos(createAdvert(1)));
+fragment.appendChild(renderPopupPhotos(createAdvert(2)));
+similarPopupPhotos.appendChild(fragment);
 
 // var renderPinMap = function (numAdvert) { // отрисовывает конкретное обьявление
 //   var mapPinFragment = document.createDocumentFragment();
