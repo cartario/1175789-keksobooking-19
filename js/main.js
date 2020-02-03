@@ -196,3 +196,4 @@ mapPinMain.addEventListener('keydown', function (evt) {
 });
 
 addressInput.value = createAdvert(getRandomInteger(0, TOTAL_ADVERTS)).address;
+//
