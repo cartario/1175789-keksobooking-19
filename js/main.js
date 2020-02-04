@@ -183,17 +183,43 @@ var activationForm = function () {
 
 };
 
-mapPinMain.addEventListener('mousedown', function (evt) {
-  if (evt.which === 1) {
-    activationForm();
-  }
+mapPinMain.addEventListener('mousedown', function () {
+  activationForm();
 });
 
-mapPinMain.addEventListener('keydown', function (evt) {
+var mapPinMainEnterHandler = function (evt) {
   if (evt.key === 'Enter') {
     activationForm();
+    mapPinMain.removeEventListener('keydown', mapPinMainEnterHandler);
   }
-});
+};
+
+mapPinMain.addEventListener('keydown', mapPinMainEnterHandler);
 
 addressInput.value = createAdvert(getRandomInteger(0, TOTAL_ADVERTS)).address;
 //
+var adFormTitle = adForm.querySelector('#title');
+var adFormPrice = adForm.querySelector('#price');
+var adFormRoomNumber = adForm.querySelector('#room_number');
+// var adFormType = adForm.querySelector('#type');
+
+adFormTitle.required = true;
+adFormPrice.required = true;
+
+adFormRoomNumber.addEventListener('change', function () {
+  if (adFormRoomNumber.value > 3) {
+    console.log('не для гостей');
+  } else if (adFormRoomNumber.value === 3) {
+    console.log('для 3 гостей», «для 2 гостей» или «для 1 гостя');
+  } else if (adFormRoomNumber.value === 2) {
+    console.log('для 2 гостей или для 1 гостя');
+  } else if (adFormRoomNumber.value === 1) {
+    console.log('для 1 гостя');
+  }
+  console.log(adFormRoomNumber.value);
+});
+
+// adFormType.addEventListener('change', function(){
+//   console.log(adFormType.value);
+// });
+
