@@ -85,15 +85,35 @@ var createAdvert = function (j) { //  создает структуру одно
   return RandomAdvert;
 };
 
+var Adverts = [];// создает пустой массив
+for (var k = 0; k < TOTAL_ADVERTS; k++) {
+  Adverts[k] = createAdvert(k);// создает структуру обьявлений и записывает в нее данные
+}
+
 var similarListElement = document.querySelector('.map__pins');// находит блок куда вставлять
 var similarPinTemplate = document.querySelector('#pin')// находит шаблон и его внут.блок
   .content
   .querySelector('.map__pin');
 
+var createPinMap = function (pinData) { // создает структуру одной метки
+  var pinElement = similarPinTemplate.cloneNode(true);
+  pinElement.querySelector('img').src = pinData.author; // в узле .map__pin находит тег img и заполняет данные в src из AVATAR
+  pinElement.querySelector('img').alt = pinData.description;
+  pinElement.style.left = pinData.location.x + 'px'; // в узле .map__pin заполняет данные в style.left (x) из locationX
+  pinElement.style.top = pinData.location.y + 'px';
+  return pinElement;
+};
+
 var similarCardElement = document.querySelector('.map');// находит блок куда вставлять
 var CardTemplate = document.querySelector('#card')// находит шаблон и его внут.блок
   .content
   .querySelector('.map__card');
+
+var renderPopupPhotos = function (data) {
+  var popupPhotoElement = popupPhotoTemplate.cloneNode(true);
+  popupPhotoElement.src = data.photos;
+  return popupPhotoElement;
+};
 
 var CardElement = CardTemplate.cloneNode(true);// клонирует шаблон
 CardElement.querySelector('.popup__title').textContent = createAdvert(4).title;
@@ -106,33 +126,9 @@ CardElement.querySelector('.popup__text--time').textContent = 'Заезд пос
 CardElement.querySelector('.popup__description').textContent = createAdvert(4).description;
 CardElement.querySelector('.popup__avatar').src = createAdvert(0).author;
 
-
-similarCardElement.appendChild(CardElement);
-
-var createPinMap = function (pinData) { // создает структуру одной метки
-  var pinElement = similarPinTemplate.cloneNode(true);
-  pinElement.querySelector('img').src = pinData.author; // в узле .map__pin находит тег img и заполняет данные в src из AVATAR
-  pinElement.querySelector('img').alt = pinData.description;
-  pinElement.style.left = pinData.location.x + 'px'; // в узле .map__pin заполняет данные в style.left (x) из locationX
-  pinElement.style.top = pinData.location.y + 'px';
-  return pinElement;
-};
-
-var Adverts = [];// создает пустой массив
-for (var k = 0; k < TOTAL_ADVERTS; k++) {
-  Adverts[k] = createAdvert(k);// создает структуру обьявлений и записывает в нее данные
-}
-
 var popupPhotoTemplate = CardElement.querySelector('.popup__photo');
 popupPhotoTemplate.src = createAdvert(0).photos;
 var similarPopupPhotos = CardElement.querySelector('.popup__photos');// куда встявлять
-
-var renderPopupPhotos = function (data) {
-  var popupPhotoElement = popupPhotoTemplate.cloneNode(true);
-  popupPhotoElement.src = data.photos;
-  return popupPhotoElement;
-};
-
 
 var fragment = document.createDocumentFragment();
 fragment.appendChild(renderPopupPhotos(createAdvert(0)));
@@ -153,8 +149,6 @@ var renderPinMaps = function () { // отрисовывает метки
   }
   similarListElement.appendChild(mapPinsFragment);
 };
-
-renderPinMaps();
 
 var mapFilters = document.querySelector('.map__filters');
 var mapPinMain = document.querySelector('.map__pin--main');
@@ -180,19 +174,66 @@ var activationForm = function () {
   adFormHeader.disabled = false;
   mapFilters.disabled = false;
   activateAdFormElement(false);
+  renderPinMaps();
+  similarCardElement.appendChild(CardElement);
+};
+
+mapPinMain.addEventListener('mousedown', function () {
+  activationForm();
+});
+
+var mapPinMainEnterHandler = function (evt) {
+  if (evt.key === 'Enter') {
+    activationForm();
+    mapPinMain.removeEventListener('keydown', mapPinMainEnterHandler);
+  }
+};
+
+mapPinMain.addEventListener('keydown', mapPinMainEnterHandler);
+
+addressInput.value = createAdvert(getRandomInteger(0, TOTAL_ADVERTS)).address;
+//
+var adFormTitle = adForm.querySelector('#title');
+var adFormPrice = adForm.querySelector('#price');
+
+var roomsInputElement = adForm.querySelector('select[name="rooms"]');
+var capacityInputElement = adForm.querySelector('select[name="capacity"]');
+
+adFormTitle.required = true;
+adFormPrice.required = true;
+
+var setDisabledValue = function (elements, values) {
+  for (var a = 0; a < elements.length; a++) {
+    elements[a].disabled = false;
+    if (values.indexOf(elements[a].value) > -1) {
+      elements[a].disabled = true;
+    }
+  }
 
 };
 
-mapPinMain.addEventListener('mousedown', function (evt) {
-  if (evt.which === 1) {
-    activationForm();
-  }
-});
+setDisabledValue(capacityInputElement, ['0', '2', '3']);
 
-mapPinMain.addEventListener('keydown', function (evt) {
-  if (evt.key === 'Enter') {
-    activationForm();
+var availableCapacity = function () {
+  var roomsInputValue = roomsInputElement.value;
+  switch (roomsInputValue) {
+    case '1':
+      setDisabledValue(capacityInputElement, ['0', '2', '3']);
+      capacityInputElement[0].selected = true;
+      break;
+    case '2':
+      setDisabledValue(capacityInputElement, ['0', '3']);
+      capacityInputElement[1].selected = true;
+      break;
+    case '3':
+      setDisabledValue(capacityInputElement, ['0']);
+      capacityInputElement[2].selected = true;
+      break;
+    case '100':
+      setDisabledValue(capacityInputElement, ['1', '2', '3']);
+      capacityInputElement[3].selected = true;
+      break;
   }
-});
+};
 
-addressInput.value = createAdvert(getRandomInteger(0, TOTAL_ADVERTS)).address;
+roomsInputElement.addEventListener('change', availableCapacity);
