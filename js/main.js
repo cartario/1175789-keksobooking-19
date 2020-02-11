@@ -248,10 +248,30 @@ var createfragmentPhoto = function (data) {
   }
 };
 
+var setDisactiveMode = function (bul) {
+  var adFormFieldsets = document.querySelectorAll('fieldset');
+  var mapFilters = document.querySelector('.map__filters').querySelectorAll('select');
+
+  for (var i = 0; i < adFormFieldsets.length; i++) {
+    adFormFieldsets[i].disabled = bul;
+  }
+
+  for (var j = 0; j < mapFilters.length; j++) {
+    mapFilters[j].disabled = bul;
+  }
+};
+
+// деактивирует инпуты
+setDisactiveMode(true);
+
 var setActiveMode = function () {
 
   // удаляет класс
   map.classList.remove('map--faded');
+
+
+  var adForm = document.querySelector('.ad-form');
+  adForm.classList.remove('ad-form--disabled');
 
   // отрисовывает попап
   renderPopup(adverts[id]);
@@ -261,12 +281,15 @@ var setActiveMode = function () {
 
   // отрисовывает фото в карточке
   createfragmentPhoto(adverts[id]);
+
+  // активирует инпуты
+  setDisactiveMode(false);
 };
 
 
 // события
 var MainPin = map.querySelector('.map__pin--main');
-MainPin.addEventListener('click', function () {
+MainPin.addEventListener('mousedown', function () {
   setActiveMode();
   // console.log('клик по главной метке');
 });
