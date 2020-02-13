@@ -288,11 +288,38 @@ var setActiveMode = function () {
 
 
 // события
+
+//клик по главной метке
 var MainPin = map.querySelector('.map__pin--main');
-MainPin.addEventListener('mousedown', function () {
+var onMainPinClick = function () {
   setActiveMode();
-  // console.log('клик по главной метке');
-});
+  MainPin.removeEventListener('mousedown', onMainPinClick);
+  console.log('клик по главной метке');
+};
+
+//координаты главной метки
+var getMainPinCoord = function () {
+  var x = MainPin.offsetLeft;
+  var y = MainPin.offsetTop;
+  return '{{' + x + '}}, {{' + y + '}}';
+};
+
+//заполняет адрес
+document.querySelector('#address').value = getMainPinCoord();
+
+//enter на главной метке
+var onMainPinEnter = function (evt) {
+  if (evt.key ==='Enter') {
+    setActiveMode();
+    MainPin.removeEventListener('keydown', onMainPinEnter);
+    console.log('enter по главной метке');
+  }
+
+};
+
+
+MainPin.addEventListener('mousedown', onMainPinClick);
+MainPin.addEventListener('keydown', onMainPinEnter);
 
 
 // создает структуру одной метки
