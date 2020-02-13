@@ -190,6 +190,25 @@ var renderPopup = function (data) {
   // клонирование шаблона
   var popup = popupTemplate.cloneNode(true);
 
+  // закрытвает попап
+  var popupClose = popup.querySelector('.popup__close');
+
+  //по клику
+  var onPopupCloseClick = function () {
+    popup.remove();
+    popupClose.removeEventListener('click', onPopupCloseClick);
+  };
+  popupClose.addEventListener('click', onPopupCloseClick);
+
+  //по esc
+  var onPopupCloseKeydown = function (evt) {
+    if (evt.keyCode === 27) {
+      popup.classList.add('hidden');
+      document.removeEventListener('keydown', onPopupCloseKeydown);
+    }
+  };
+  document.addEventListener('keydown', onPopupCloseKeydown);
+
 
   // наполнение данными
   popup.querySelector('.popup__title').textContent = data.offer.title;
@@ -294,8 +313,8 @@ var MainPin = map.querySelector('.map__pin--main');
 var onMainPinClick = function () {
   setActiveMode();
   MainPin.removeEventListener('mousedown', onMainPinClick);
-  console.log('клик по главной метке');
 };
+MainPin.addEventListener('mousedown', onMainPinClick);
 
 //координаты главной метки
 var getMainPinCoord = function () {
@@ -312,140 +331,9 @@ var onMainPinEnter = function (evt) {
   if (evt.key ==='Enter') {
     setActiveMode();
     MainPin.removeEventListener('keydown', onMainPinEnter);
-    console.log('enter по главной метке');
   }
-
 };
-
-
-MainPin.addEventListener('mousedown', onMainPinClick);
 MainPin.addEventListener('keydown', onMainPinEnter);
-
-
-// создает структуру одной метки
-// var createPinMap = function (pinData) {
-// var pinElement = similarPinTemplate.cloneNode(true); //создает шаблон
-//   pinElement.querySelector('img').src = pinData.author; // в узле .map__pin находит тег img и заполняет данные в src из AVATAR
-//   pinElement.querySelector('img').alt = pinData.offer.description;
-//   pinElement.style.left = pinData.location.x + 'px'; // в узле .map__pin заполняет данные в style.left (x) из locationX
-//   pinElement.style.top = pinData.location.y + 'px';
-//   pinElement.addEventListener('click', function(){ //обработчик клика по метке
-
-//     var popup = document.querySelector('.popup');
-
-//       if(popup){ //удаляет попап, если есть он есть
-//         popup.remove();
-//       }
-//       createCard();//отрисовывает карточку обьявления
-//   });
-
-//   return pinElement;
-// };
-
-// // отрисовывает метки
-// var renderPinMaps = function () {
-//   var mapPinsFragment = document.createDocumentFragment();
-//   for (var i = 0; i < advertsArr.length; i++) {
-//     mapPinsFragment.appendChild(createPinMap(advertsArr[i]));
-//   }
-//   similarListElement.appendChild(mapPinsFragment);
-// };
-
-// //создает карточку обьявления
-// var createCard = function () {
-
-//   //создает шаблон
-//   var similarCardElement = document.querySelector('.map');// находит блок куда вставлять
-//   var CardTemplate = document.querySelector('#card')// находит шаблон и его внут.блок
-//     .content
-//     .querySelector('.map__card');
-//   var CardElement = CardTemplate.cloneNode(true);// клонирует шаблон
-
-
-//   CardElement.querySelector('.popup__title').textContent = generateAdvert(0).offer.title;
-//   CardElement.querySelector('.popup__text--address').textContent = generateAdvert(0).address;
-//   CardElement.querySelector('.popup__text--price').textContent = generateAdvert(0).offer.price + '₽/ночь';
-//   CardElement.querySelector('.popup__type').textContent = generateAdvert(0).offer.type;
-//   CardElement.querySelector('.popup__text--capacity').textContent = generateAdvert(0).offer.room + ' комнаты для ' + generateAdvert(0).offer.guests + ' гостей';
-//   CardElement.querySelector('.popup__text--time').textContent = 'Заезд после' + generateAdvert(0).offer.checkin + ', выезд до' + generateAdvert(0).offer.checkout;
-//   CardElement.querySelector('.popup__features').textContent = generateAdvert(0).features;
-//   CardElement.querySelector('.popup__description').textContent = generateAdvert(0).offer.description;
-//   CardElement.querySelector('.popup__avatar').src = generateAdvert(0).author;
-
-//   var popupPhotoTemplate = CardElement.querySelector('.popup__photo');
-//   var similarPopupPhotos = CardElement.querySelector('.popup__photos');// куда встявлять
-
-//   //создает шаблон фотки
-//   var createPopupPhoto = function (data) {
-//     var popupPhotoElement = popupPhotoTemplate.cloneNode(true);
-//     popupPhotoTemplate.src = generateAdvert(0).offer.photos;
-//     popupPhotoElement.src = data.offer.photos;
-//     return popupPhotoElement;
-//   };
-
-//   //отрисовка фоток
-//   var renderPopupPhotos = function(){
-//     var fragmentPhoto = document.createDocumentFragment();
-//     for (var i=0; i < 3; i++) {
-//       fragmentPhoto.appendChild(createPopupPhoto(generateAdvert(i)));
-//       similarPopupPhotos.appendChild(fragmentPhoto);
-//     }
-//   };
-
-//   renderPopupPhotos();
-
-//   //закрывает карточку по клику
-//   var closeCard = CardElement.querySelector('.popup__close');
-//     closeCard.addEventListener('click', function (){
-//     CardElement.remove();
-//   });
-
-//   //отрисовка карточки
-//   similarCardElement.appendChild(CardElement);
-// };
-
-// var mapFilters = document.querySelector('.map__filters');
-// mapFilters.disabled = true;
-// var mapPinMain = document.querySelector('.map__pin--main');
-// var adForm = document.querySelector('.ad-form');
-// var adFormHeader = adForm.querySelector('.ad-form-header');
-// adFormHeader.disabled = true;
-// var adFormElement = adForm.querySelectorAll('.ad-form__element');
-// var addressInput = document.querySelector('#address');
-
-
-// var activateAdFormElement = function (bul) {
-//   for (var m = 0; m < adFormElement.length; m++) {
-//     adFormElement[m].disabled = bul;
-//   }
-// };
-
-// activateAdFormElement(true);
-
-// var activationForm = function () {
-//   document.querySelector('.map').classList.remove('map--faded');
-//   adForm.classList.remove('ad-form--disabled');
-//   adFormHeader.disabled = false;
-//   mapFilters.disabled = false;
-//   activateAdFormElement(false);
-// };
-
-// mapPinMain.addEventListener('mousedown', function () {
-//   activationForm();
-//   renderPinMaps();
-//   createCard();
-// });
-
-// var mapPinMainEnterHandler = function (evt) {
-//   if (evt.key === 'Enter') {
-//     activationForm();
-//     renderPinMaps();
-//     createCard();
-//     mapPinMain.removeEventListener('keydown', mapPinMainEnterHandler);
-//   }
-// };
-
-// mapPinMain.addEventListener('keydown', mapPinMainEnterHandler);
 
 // addressInput.value = generateAdvert(getRandomInteger(0, TOTAL_ADVERTS)).address;
 // //
