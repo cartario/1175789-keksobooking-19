@@ -173,6 +173,11 @@ var renderPinMaps = function (array) {
     pinElement.style.left = array[i].location.x + 'px'; // в узле .map__pin заполняет данные в style.left (x) из locationX
     pinElement.style.top = array[i].location.y + 'px';
 
+    pinElement.addEventListener('click', function(){
+      renderPopup(adverts[id]);
+    });
+
+
     var mapPinsFragment = document.createDocumentFragment();
     mapPinsFragment.appendChild(pinElement);
     similarListElement.appendChild(mapPinsFragment);
@@ -288,25 +293,36 @@ var setActiveMode = function () {
   // удаляет класс
   map.classList.remove('map--faded');
 
-
   var adForm = document.querySelector('.ad-form');
   adForm.classList.remove('ad-form--disabled');
 
-  // отрисовывает попап
-  renderPopup(adverts[id]);
-
   // отрисовывает метки
   renderPinMaps(adverts);
-
-  // отрисовывает фото в карточке
-  createfragmentPhoto(adverts[id]);
 
   // активирует инпуты
   setDisactiveMode(false);
 };
 
 
+
+
+
+
+
+
+  // var mapPin = popup.querySelectorAll('.map__pin:not(.map__pin--main)');
+  // map.addEventListener('click', onMapPinClick);
+
+  // // отрисовывает фото в карточке
+  // createfragmentPhoto(adverts[id]);
+
+
+
+
 // события
+
+
+
 
 //клик по главной метке
 var MainPin = map.querySelector('.map__pin--main');
@@ -315,6 +331,8 @@ var onMainPinClick = function () {
   MainPin.removeEventListener('mousedown', onMainPinClick);
 };
 MainPin.addEventListener('mousedown', onMainPinClick);
+
+
 
 //координаты главной метки
 var getMainPinCoord = function () {
