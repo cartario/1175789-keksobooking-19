@@ -10,7 +10,10 @@
   var adFormPrice = adForm.querySelector('#price');
 
   var roomsInputElement = adForm.querySelector('select[name="rooms"]');
+  var typeInputElement = adForm.querySelector('select[name="type"]');
   var capacityInputElement = adForm.querySelector('select[name="capacity"]');
+  var timeInInput = adForm.querySelector('select[name="timein"]');
+  var timeOutInput = adForm.querySelector('select[name="timeout"]');
 
   // обязательны для заролнения
   adFormTitle.required = true;
@@ -51,6 +54,35 @@
   setDisabledValue(capacityInputElement, ['0', '2', '3']);
   setSelectedValue(capacityInputElement, ['1']);
 
+  // зависимость цены от типа жилья
+  var setPriceOfType = function () {
+    var typeInputValue = typeInputElement.value;
+    switch (typeInputValue) {
+      case 'flat':
+        adFormPrice.value = 1000;
+        break;
+      case 'bungalo':
+        adFormPrice.value = 0;
+        break;
+      case 'house':
+        adFormPrice.value = 5000;
+        break;
+      case 'palace':
+        adFormPrice.value = 10000;
+        break;
+    }
+  };
+
+  // синхронизация времени
+  // слушает инпут и в output записывает текущее значение
+  timeInInput.addEventListener('change', function (evt) {
+    timeOutInput.value = evt.target.value;
+  });
+
+  timeOutInput.addEventListener('change', function (evt) {
+    timeInInput.value = evt.target.value;
+  });
+
   // зависимость количества гостей от количества комнат
   var availableCapacity = function () {
     var roomsInputValue = roomsInputElement.value;
@@ -78,5 +110,11 @@
 
   // слушает изменения в поле количество комнат
   roomsInputElement.addEventListener('change', availableCapacity);
+
+  // слушает изменения в поле тип жилья
+  typeInputElement.addEventListener('change', setPriceOfType);
+
+  // заполняет цену
+  adFormPrice.value = 1000;
 
 })();

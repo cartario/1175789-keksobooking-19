@@ -52,7 +52,7 @@
   var getMainPinCoord = function () {
     var x = MainPin.offsetLeft + window.data.PIN.WIDTH / 2;
     var y = MainPin.offsetTop + window.data.PIN.HEIGHT;
-    return '{{' + x + '}}, {{' + y + '}}';
+    return x + ', ' + y;
   };
 
 
