@@ -3,6 +3,10 @@
 (function () {
 
   // заполняет адрес
-  document.querySelector('#address').value = window.map.getMainPinCoord();
+  var addressInput = document.querySelector('#address');
+  addressInput.value = window.map.getMainPinCoord();
 
+  window.main = {
+    addressInput: addressInput
+  };
 })();
