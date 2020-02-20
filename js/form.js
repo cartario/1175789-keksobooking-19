@@ -60,15 +60,23 @@
     switch (typeInputValue) {
       case 'flat':
         adFormPrice.value = 1000;
+        adFormPrice.setAttribute('value', 1000);
+        adFormPrice.setAttribute('placeholder', 1000);
         break;
       case 'bungalo':
         adFormPrice.value = 0;
+        adFormPrice.setAttribute('value', 0);
+        adFormPrice.setAttribute('placeholder', 0);
         break;
       case 'house':
         adFormPrice.value = 5000;
+        adFormPrice.setAttribute('value', 5000);
+        adFormPrice.setAttribute('placeholder', 5000);
         break;
       case 'palace':
         adFormPrice.value = 10000;
+        adFormPrice.setAttribute('value', 10000);
+        adFormPrice.setAttribute('placeholder', 10000);
         break;
     }
   };
@@ -116,5 +124,7 @@
 
   // заполняет цену
   adFormPrice.value = 1000;
+  adFormPrice.setAttribute('value', 1000);
+  adFormPrice.setAttribute('placeholder', 1000);
 
 })();
