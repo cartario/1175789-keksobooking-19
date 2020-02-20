@@ -115,14 +115,14 @@
         if (coords.x < dragLimit.X.MIN) {
           coords.x = window.data.PIN.WIDTH / 2;
         }
-        if (coords.x > dragLimit.X.MAX) {
+        if (coords.x > dragLimit.X.MAX - window.data.PIN.WIDTH) {
           coords.x = dragLimit.X.MAX - window.data.PIN.WIDTH;
         }
-        if (coords.y < 0) {
-          coords.y = window.data.PIN.HEIGHT / 2;
+        if (coords.y < dragLimit.Y.MIN) {
+          coords.y = dragLimit.Y.MIN;
         }
         if (coords.y > dragLimit.Y.MAX) {
-          coords.y = dragLimit.Y.MAX - window.data.PIN.HEIGHT;
+          coords.y = dragLimit.Y.MAX;
         }
         return coords;
       };
@@ -131,17 +131,17 @@
       newCoords = checkCoords(newCoords);
 
       // добавляет в атрибуты новые координаты
-      var mainPinPosition = {
-        x: MainPin.style.left = newCoords.x + 'px',
-        y: MainPin.style.top = newCoords.y + 'px'
-      };
+      // var mainPinPosition = {
+      MainPin.style.left = newCoords.x + 'px';
+      MainPin.style.top = newCoords.y + 'px';
+      // };
 
       var setAddress = function (coords) {
         window.main.addressInput.value = coords.x + ', ' + coords.y;
       };
 
       // устанавливает адрес в инпут
-      setAddress(mainPinPosition);
+      setAddress(newCoords);
 
     };
 
