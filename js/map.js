@@ -4,6 +4,18 @@
 
   var map = document.querySelector('.map');
 
+  // лимиты рамки
+  var dragLimit = {
+    X: {
+      MIN: 0,
+      MAX: 1200
+    },
+    Y: {
+      MIN: 130,
+      MAX: 630
+    }
+  };
+
   var setDisactiveMode = function (bul) {
     var adFormFieldsets = document.querySelectorAll('fieldset');
     var mapFilters = document.querySelector('.map__filters').querySelectorAll('select');
@@ -68,6 +80,8 @@
   // перетаскивание
   MainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
+
+    // стартовые координаты метки
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
@@ -76,25 +90,57 @@
 
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
+
+      // расчитывает сдвиг
       var shift = {
         x: startCoords.x - moveEvt.clientX,
         y: startCoords.y - moveEvt.clientY
       };
 
+      // перезаписывает стартовые координаты
       startCoords = {
         x: moveEvt.clientX,
         y: moveEvt.clientY
       };
 
+      // задает метке новые координаты
+      var newCoords = {
+        x: MainPin.offsetLeft - shift.x,
+        y: MainPin.offsetTop - shift.y
+      };
+
+
+      // проверяет границы
+      var checkCoords = function (coords) {
+        if (coords.x < dragLimit.X.MIN) {
+          coords.x = window.data.PIN.WIDTH / 2;
+        }
+        if (coords.x > dragLimit.X.MAX) {
+          coords.x = dragLimit.X.MAX - window.data.PIN.WIDTH;
+        }
+        if (coords.y < 0) {
+          coords.y = window.data.PIN.HEIGHT / 2;
+        }
+        if (coords.y > dragLimit.Y.MAX) {
+          coords.y = dragLimit.Y.MAX - window.data.PIN.HEIGHT;
+        }
+        return coords;
+      };
+
+      // перезаписывает росле проверки
+      newCoords = checkCoords(newCoords);
+
+      // добавляет в атрибуты новые координаты
       var mainPinPosition = {
-        x: MainPin.style.top = (MainPin.offsetTop - shift.y) + 'px',
-        y: MainPin.style.left = (MainPin.offsetLeft - shift.x) + 'px'
+        x: MainPin.style.left = newCoords.x + 'px',
+        y: MainPin.style.top = newCoords.y + 'px'
       };
 
       var setAddress = function (coords) {
         window.main.addressInput.value = coords.x + ', ' + coords.y;
       };
 
+      // устанавливает адрес в инпут
       setAddress(mainPinPosition);
 
     };
@@ -113,6 +159,7 @@
   });
 
   window.map = {
+    dragLimit: dragLimit,
     getMainPinCoord: getMainPinCoord,
     map: map,
     MainPin: MainPin
