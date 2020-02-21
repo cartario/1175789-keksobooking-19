@@ -17,8 +17,15 @@
   };
 
   var setDisactiveMode = function (bul) {
+    // добавляет класс
+    map.classList.add('map--faded');
     var adFormFieldsets = document.querySelectorAll('fieldset');
     var mapFilters = document.querySelector('.map__filters').querySelectorAll('select');
+    var mapPinsItems = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    var adForm = document.querySelector('.ad-form');
+    adForm.classList.add('ad-form--disabled');
+
 
     for (var i = 0; i < adFormFieldsets.length; i++) {
       adFormFieldsets[i].disabled = bul;
@@ -27,6 +34,13 @@
     for (var j = 0; j < mapFilters.length; j++) {
       mapFilters[j].disabled = bul;
     }
+
+    for (var k = 0; k < mapPinsItems.length; k++) {
+      mapPinsItems[k].remove();
+    }
+    var MainPin = map.querySelector('.map__pin--main');
+    MainPin.addEventListener('mousedown', onMainPinClick);
+
   };
 
   // деактивирует инпуты
@@ -43,8 +57,12 @@
     // отрисовывает метки
     window.pin.renderPinMaps(window.data.adverts);
 
-    // активирует инпуты
-    setDisactiveMode(false);
+    // // активирует инпуты
+    // setDisactiveMode(false);
+    var adFormFieldsets = document.querySelectorAll('fieldset');
+    for (var i = 0; i < adFormFieldsets.length; i++) {
+      adFormFieldsets[i].disabled = false;
+    }
 
     // отрисовывает метки
     window.pin.renderPinMaps(window.data.adverts);
@@ -113,7 +131,7 @@
       // проверяет границы
       var checkCoords = function (coords) {
         if (coords.x < dragLimit.X.MIN) {
-          coords.x = window.data.PIN.WIDTH / 2;
+          coords.x = dragLimit.X.MIN;
         }
         if (coords.x > dragLimit.X.MAX - window.data.PIN.WIDTH) {
           coords.x = dragLimit.X.MAX - window.data.PIN.WIDTH;
@@ -162,7 +180,9 @@
     dragLimit: dragLimit,
     getMainPinCoord: getMainPinCoord,
     map: map,
-    MainPin: MainPin
+    MainPin: MainPin,
+    setDisactiveMode: setDisactiveMode,
+
   };
 
 })();

@@ -14,6 +14,20 @@
   var capacityInputElement = adForm.querySelector('select[name="capacity"]');
   var timeInInput = adForm.querySelector('select[name="timein"]');
   var timeOutInput = adForm.querySelector('select[name="timeout"]');
+  var adFormReset = adForm.querySelector('.ad-form__reset');
+
+  var onResetClick = function () {
+    adForm.reset();
+    window.map.setDisactiveMode(true);
+    window.map.map.querySelector('.map__card').remove();
+    // adFormReset.removeEventListener('click', onResetClick);
+    window.main.addressInput.value = '595, 445';
+    window.map.MainPin.style.left = 595 + 'px';
+    window.map.MainPin.style.top = 445 + 'px';
+  };
+
+  adFormReset.addEventListener('click', onResetClick);
+
 
   // обязательны для заролнения
   adFormTitle.required = true;
