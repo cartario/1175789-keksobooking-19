@@ -25,7 +25,7 @@
 
     // по esc
     var onPopupCloseKeydown = function (evt) {
-      if (evt.keyCode === 27) {
+      if (evt.keyCode === window.main.ESC_KEYCODE) {
         popup.classList.add('hidden');
         document.removeEventListener('keydown', onPopupCloseKeydown);
       }
@@ -92,7 +92,8 @@
   // createfragmentPhoto(adverts[0]);
 
   window.card = {
-    renderPopup: renderPopup
+    renderPopup: renderPopup,
+
   };
 
 })();
