@@ -6,6 +6,7 @@
   // заполняет адрес
   var addressInput = document.querySelector('#address');
   addressInput.value = window.map.getMainPinCoord();
+  addressInput.setAttribute('readonly', 'readonly');
 
   window.main = {
     addressInput: addressInput,

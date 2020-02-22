@@ -92,7 +92,8 @@
   // createfragmentPhoto(adverts[0]);
 
   window.card = {
-    renderPopup: renderPopup
+    renderPopup: renderPopup,
+
   };
 
 })();
