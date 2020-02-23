@@ -55,7 +55,23 @@
     adForm.classList.remove('ad-form--disabled');
 
     // отрисовывает метки
-    window.pin.renderPinMaps(window.data.adverts);
+    var onSuccess = window.pin.renderPinMaps;
+
+    // будет выводить сообщение ошибок
+    // отрисовывает блок и задает стили и передает в модуль load
+    var onError = function (message) {
+      var node = document.createElement('div');
+      node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red; color: white';
+      node.style.position = 'fixed';
+      node.style.left = 0;
+      node.style.right = 0;
+      node.style.fontSize = '30px';
+      node.textContent = message;
+      document.body.insertAdjacentElement('afterbegin', node);
+    };
+
+    // связывает отрисовку меток с данными - запускает фун-ю load с параметрами отрисовки карточки
+    window.load(onSuccess, onError);
 
     // // активирует инпуты
     // setDisactiveMode(false);
@@ -63,9 +79,6 @@
     for (var i = 0; i < adFormFieldsets.length; i++) {
       adFormFieldsets[i].disabled = false;
     }
-
-    // отрисовывает метки
-    window.pin.renderPinMaps(window.data.adverts);
   };
 
   // события
@@ -181,7 +194,7 @@
     getMainPinCoord: getMainPinCoord,
     map: map,
     MainPin: MainPin,
-    setDisactiveMode: setDisactiveMode,
+    setDisactiveMode: setDisactiveMode
 
   };
 

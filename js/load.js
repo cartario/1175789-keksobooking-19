@@ -2,6 +2,12 @@
 
 (function () {
 
+  var TIMEOUT_MS = 10000;
+  var statusCode = {
+    OK: 200,
+    NOT_URL: 404
+  };
+
   // создает урл
   var urlData = 'https://js.dump.academy/keksobooking/data';
 
@@ -14,12 +20,11 @@
 
     // слушает событие load (скачать с сервера)
     xhr.addEventListener('load', function () {
-
-      // создает переменную ошибки
+    // создает переменную ошибки
       var error;
       // в случае если статус обьекта xhr равен...
       switch (xhr.status) {
-        case 200:
+        case statusCode.OK:
           // запускает функцию с параметром ответа сервера
           onSuccess(xhr.response);
           break;
@@ -29,7 +34,7 @@
         case 401:
           error = 'Пользователь не авторизован';
           break;
-        case 404:
+        case statusCode.NOT_URL:
           error = 'ошибка в написании ссылки';
           break;
 
@@ -54,7 +59,7 @@
     });
 
     // время ожидания, мс
-    xhr.timeout = 10000;
+    xhr.timeout = TIMEOUT_MS;
 
     // открывает запрос
     xhr.open('GET', urlData);
@@ -62,24 +67,5 @@
     // запускает запрос
     xhr.send();
   };
-
-  // будет выводить в консоль сообщение ошибки
-  var onError = function (message) {
-    console.error(message);
-  };
-
-  // будет хранить в переменной данные с сервера
-  var onSuccess = function (data) {
-    var adverts = data;
-    for (var i = 0; i < adverts.length; i++) {
-      console.log(adverts[i].author);
-    }
-
-  };
-
-
-  // запускает функцию загрузки
-  window.load(onSuccess, onError);
-
 
 })();
