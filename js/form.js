@@ -16,6 +16,13 @@
   var timeOutInput = adForm.querySelector('select[name="timeout"]');
   var adFormReset = adForm.querySelector('.ad-form__reset');
 
+  adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.load.upload(new FormData(adForm), function () {
+      window.main.setSuccessMessage();
+    });
+  });
+
   var onResetClick = function () {
     adForm.reset();
     window.map.setDisActiveMode(true);

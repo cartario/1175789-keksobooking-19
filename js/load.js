@@ -13,7 +13,7 @@
   // создает урл
   var urlData = 'https://js.dump.academy/keksobooking/data';
 
-  window.load = function (onSuccess, onError) {
+  var load = function (onSuccess, onError) {
     // создает обьект конструктор
     var xhr = new XMLHttpRequest();
 
@@ -68,6 +68,26 @@
 
     // запускает запрос
     xhr.send();
+  };
+
+  var upload = function (data, onSuccess) {
+    var urlUpload = 'https://js.dump.academy/keksobooking';
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.responseType = 'json';
+
+    xhr.addEventListener('load', function () {
+      onSuccess(xhr.response);
+    });
+
+    xhr.open('POST', urlUpload);
+    xhr.send(data);
+  };
+
+  window.load = {
+    load: load,
+    upload: upload
   };
 
 })();

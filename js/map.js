@@ -71,7 +71,7 @@
     };
 
     // связывает отрисовку меток с данными - запускает фун-ю load с параметрами отрисовки карточки
-    window.load(onSuccess, onError);
+    window.load.load(onSuccess, onError);
 
     // // активирует инпуты
 
@@ -79,6 +79,7 @@
     for (var i = 0; i < adFormFieldsets.length; i++) {
       adFormFieldsets[i].disabled = false;
     }
+
   };
 
   // события
