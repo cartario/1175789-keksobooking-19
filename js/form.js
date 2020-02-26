@@ -26,7 +26,12 @@
   var onResetClick = function () {
     adForm.reset();
     window.map.setDisActiveMode(true);
-    window.map.map.querySelector('.map__card').remove();
+
+    // удаляет, если есть
+    if (window.map.map.querySelector('.map__card')) {
+      window.map.map.querySelector('.map__card').remove();
+    }
+
 
     window.main.addressInput.value = '595, 445';
     window.map.MainPin.style.left = 595 + 'px';
@@ -138,5 +143,9 @@
   adFormPrice.value = false;
   adFormPrice.setAttribute('min', 1000);
   adFormPrice.setAttribute('placeholder', 1000);
+
+  window.form = {
+    onResetClick: onResetClick
+  };
 
 })();

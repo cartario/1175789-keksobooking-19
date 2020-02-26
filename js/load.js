@@ -78,7 +78,13 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      onSuccess(xhr.response);
+
+      if (xhr.status === statusCode.OK) {
+        onSuccess(xhr.response);
+      } else {
+        window.main.setErrorMessage();
+      }
+
     });
 
     xhr.open('POST', urlUpload);
