@@ -5,7 +5,9 @@
   var TIMEOUT_MS = 10000;
   var statusCode = {
     OK: 200,
-    NOT_URL: 404
+    NOT_URL: 404,
+    BAD_REQUEST: 400,
+    UNAUTHORIZED: 401
   };
 
   // создает урл
@@ -28,10 +30,10 @@
           // запускает функцию с параметром ответа сервера
           onSuccess(xhr.response);
           break;
-        case 400:
+        case statusCode.BAD_REQUEST:
           error = 'Неверный запрос';
           break;
-        case 401:
+        case statusCode.UNAUTHORIZED:
           error = 'Пользователь не авторизован';
           break;
         case statusCode.NOT_URL:

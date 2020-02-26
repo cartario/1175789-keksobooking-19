@@ -16,7 +16,7 @@
     }
   };
 
-  var setDisactiveMode = function (bul) {
+  var setDisActiveMode = function (bul) {
     // добавляет класс
     map.classList.add('map--faded');
     var adFormFieldsets = document.querySelectorAll('fieldset');
@@ -44,7 +44,7 @@
   };
 
   // деактивирует инпуты
-  setDisactiveMode(true);
+  setDisActiveMode(true);
 
   var setActiveMode = function () {
 
@@ -74,7 +74,7 @@
     window.load(onSuccess, onError);
 
     // // активирует инпуты
-    // setDisactiveMode(false);
+
     var adFormFieldsets = document.querySelectorAll('fieldset');
     for (var i = 0; i < adFormFieldsets.length; i++) {
       adFormFieldsets[i].disabled = false;
@@ -91,10 +91,14 @@
   };
   MainPin.addEventListener('mousedown', onMainPinClick);
 
+  var PIN = {
+    WIDTH: 50,
+    HEIGHT: 70
+  };
   // координаты главной метки
   var getMainPinCoord = function () {
-    var x = MainPin.offsetLeft + window.data.PIN.WIDTH / 2;
-    var y = MainPin.offsetTop + window.data.PIN.HEIGHT;
+    var x = MainPin.offsetLeft + PIN.WIDTH / 2;
+    var y = MainPin.offsetTop + PIN.HEIGHT;
     return x + ', ' + y;
   };
 
@@ -146,8 +150,8 @@
         if (coords.x < dragLimit.X.MIN) {
           coords.x = dragLimit.X.MIN;
         }
-        if (coords.x > dragLimit.X.MAX - window.data.PIN.WIDTH) {
-          coords.x = dragLimit.X.MAX - window.data.PIN.WIDTH;
+        if (coords.x > dragLimit.X.MAX - PIN.WIDTH) {
+          coords.x = dragLimit.X.MAX - PIN.WIDTH;
         }
         if (coords.y < dragLimit.Y.MIN) {
           coords.y = dragLimit.Y.MIN;
@@ -194,7 +198,7 @@
     getMainPinCoord: getMainPinCoord,
     map: map,
     MainPin: MainPin,
-    setDisactiveMode: setDisactiveMode
+    setDisActiveMode: setDisActiveMode
 
   };
 

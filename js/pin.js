@@ -5,7 +5,6 @@
   // поиск и наполнение инфой метки
   var createPinMap = function (pinData) {
 
-    // var similarListElement = document.querySelector('.map__pins');// находит блок куда вставлять
     var similarPinTemplate = document.querySelector('#pin')// находит шаблон и его внут.блок
       .content
       .querySelector('.map__pin');

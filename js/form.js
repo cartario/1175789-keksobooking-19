@@ -18,9 +18,9 @@
 
   var onResetClick = function () {
     adForm.reset();
-    window.map.setDisactiveMode(true);
+    window.map.setDisActiveMode(true);
     window.map.map.querySelector('.map__card').remove();
-    // adFormReset.removeEventListener('click', onResetClick);
+
     window.main.addressInput.value = '595, 445';
     window.map.MainPin.style.left = 595 + 'px';
     window.map.MainPin.style.top = 445 + 'px';
@@ -33,15 +33,6 @@
   adFormTitle.required = true;
   adFormPrice.required = true;
 
-  // валидация цены
-  // adFormPrice.addEventListener('input', function (evt) {
-  //   var target = evt.target;
-  //   if (target.value.length < 4) {
-  //     target.setCustomValidity('укажите ссумму в интервале 0 - 1 000 000');
-  //   } else {
-  //     target.setCustomValidity('');
-  //   }
-  // });
 
   // вначале отключает все инпуты
   var setDisabledValue = function (options, array) {
