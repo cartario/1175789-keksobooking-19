@@ -71,7 +71,7 @@
     };
 
     // связывает отрисовку меток с данными - запускает фун-ю load с параметрами отрисовки карточки
-    window.load.load(onSuccess, onError);
+    window.backend.load(onSuccess, onError);
 
     // // активирует инпуты
 
@@ -199,8 +199,8 @@
     getMainPinCoord: getMainPinCoord,
     map: map,
     MainPin: MainPin,
-    setDisActiveMode: setDisActiveMode
-
+    setDisActiveMode: setDisActiveMode,
+    PIN: PIN
   };
 
 })();
