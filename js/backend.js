@@ -7,7 +7,8 @@
     OK: 200,
     NOT_URL: 404,
     BAD_REQUEST: 400,
-    UNAUTHORIZED: 401
+    UNAUTHORIZED: 401,
+    INTERNAL_ERR: 500
   };
 
   // создает урл
@@ -43,7 +44,7 @@
         case statusCode.NOT_URL:
           error = 'ошибка в написании ссылки';
           break;
-        case 500:
+        case statusCode.INTERNAL_ERR:
           error = 'ошибка в написании ссылки';
           break;
 
