@@ -67,14 +67,12 @@
 
       // отрисовка фоток
       for (var k = 0; k < data.offer.photos.length; k++) {
-        // создает строку
-        var photosItem = document.createElement('li');
+
         // в ней фото
         var image = document.createElement('img');
         // добавляет фото в строку
-        photosItem.appendChild(image);
-        // добавляет строку в карточку
-        popup.querySelector('.popup__photos').appendChild(photosItem);
+
+        popup.querySelector('.popup__photos').appendChild(image);
         // присваивает каждой фотке адрес
         image.src = data.offer.photos[k];
         // задает размеры картинок

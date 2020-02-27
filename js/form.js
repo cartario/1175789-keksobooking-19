@@ -16,14 +16,44 @@
   var timeOutInput = adForm.querySelector('select[name="timeout"]');
   var adFormReset = adForm.querySelector('.ad-form__reset');
 
+  // в случае успеха
+  var onSuccess = function () {
+    window.main.setSuccessMessage();
+  };
+
+  // в случае ошибки
+  var onError = function (message) {
+    window.main.setErrorMessage();
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red; color: white';
+    node.style.position = 'fixed';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+    node.textContent = message;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  // слушает кнопку формы, отменяет действие по умолчанию
+  adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.upload(new FormData(adForm), onSuccess, onError);
+  });
+
+
   var onResetClick = function () {
     adForm.reset();
     window.map.setDisActiveMode(true);
-    window.map.map.querySelector('.map__card').remove();
+
+    // удаляет, если есть
+    if (window.map.map.querySelector('.map__card')) {
+      window.map.map.querySelector('.map__card').remove();
+    }
+
 
     window.main.addressInput.value = '595, 445';
-    window.map.MainPin.style.left = 595 + 'px';
-    window.map.MainPin.style.top = 445 + 'px';
+    window.map.MainPin.style.left = 595 - window.map.PIN.WIDTH / 2 + 'px';
+    window.map.MainPin.style.top = 445 - window.map.PIN.HEIGHT + 'px';
   };
 
   adFormReset.addEventListener('click', onResetClick);
@@ -131,5 +161,9 @@
   adFormPrice.value = false;
   adFormPrice.setAttribute('min', 1000);
   adFormPrice.setAttribute('placeholder', 1000);
+
+  window.form = {
+    onResetClick: onResetClick
+  };
 
 })();

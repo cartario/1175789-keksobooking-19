@@ -12,13 +12,17 @@
 
   // создает урл
   var urlData = 'https://js.dump.academy/keksobooking/data';
+  var urlUpload = 'https://js.dump.academy/keksobooking';
 
-  window.load = function (onSuccess, onError) {
+  var getData = function (onSuccess, onError) {
     // создает обьект конструктор
     var xhr = new XMLHttpRequest();
 
     // устанавливает тип json
     xhr.responseType = 'json';
+
+    // время ожидания, мс
+    xhr.timeout = TIMEOUT_MS;
 
     // слушает событие load (скачать с сервера)
     xhr.addEventListener('load', function () {
@@ -37,6 +41,9 @@
           error = 'Пользователь не авторизован';
           break;
         case statusCode.NOT_URL:
+          error = 'ошибка в написании ссылки';
+          break;
+        case 500:
           error = 'ошибка в написании ссылки';
           break;
 
@@ -60,14 +67,26 @@
       onError(xhr.timeout / 1000 + ' сек:    ' + 'Время вышло, прыщага ');
     });
 
-    // время ожидания, мс
-    xhr.timeout = TIMEOUT_MS;
+    return xhr;
+  };
 
+  var upload = function (data, onSuccess, onError) {
+    var xhr = getData(onSuccess, onError);
+    xhr.open('POST', urlUpload);
+    xhr.send(data);
+  };
+
+  var load = function (onSuccess, onError) {
+    var xhr = getData(onSuccess, onError);
     // открывает запрос
     xhr.open('GET', urlData);
-
     // запускает запрос
     xhr.send();
+  };
+
+  window.backend = {
+    load: load,
+    upload: upload
   };
 
 })();
