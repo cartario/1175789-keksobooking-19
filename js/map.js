@@ -80,6 +80,12 @@
       adFormFieldsets[i].disabled = false;
     }
 
+    var mapFilters = document.querySelector('.map__filters').querySelectorAll('select');
+    for (var j = 0; j < mapFilters.length; j++) {
+      mapFilters[j].disabled = false;
+    }
+
+
   };
 
   // события
