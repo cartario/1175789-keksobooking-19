@@ -61,7 +61,7 @@
     filteredData = data.slice(0);
 
     // запускает ф-ю фильтрации по типу выбранного жилья
-    filteredData = filteredData.filter(filtrationByType).concat(data);
+    filteredData = filteredData.filter(filtrationByType);
 
 
     // удаляет отрисованные ранее пины
@@ -76,7 +76,7 @@
 
   // фильтрует по типу жилья
   var filtrationByType = function (it) {
-    return it.value === 'any' ? true : typeSelect.value === it.offer.type;
+    return it.value === 'any' || typeSelect.value === it.offer.type;
   };
 
 
