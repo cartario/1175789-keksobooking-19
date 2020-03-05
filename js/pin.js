@@ -42,7 +42,10 @@
     }
     // добавляет фрагмент на страницу
     mapPins.appendChild(mapPinsFragment);
+
+
   };
+
 
   window.pin = {
     createPinMap: createPinMap,

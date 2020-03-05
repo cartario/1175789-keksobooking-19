@@ -16,6 +16,7 @@
   var urlUpload = 'https://js.dump.academy/keksobooking';
 
   var getData = function (onSuccess, onError) {
+
     // создает обьект конструктор
     var xhr = new XMLHttpRequest();
 
@@ -69,6 +70,7 @@
     });
 
     return xhr;
+
   };
 
   var upload = function (data, onSuccess, onError) {
@@ -83,6 +85,7 @@
     xhr.open('GET', urlData);
     // запускает запрос
     xhr.send();
+
   };
 
   window.backend = {
