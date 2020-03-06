@@ -7,7 +7,8 @@
     OK: 200,
     NOT_URL: 404,
     BAD_REQUEST: 400,
-    UNAUTHORIZED: 401
+    UNAUTHORIZED: 401,
+    INTERNAL_ERR: 500
   };
 
   // создает урл
@@ -15,6 +16,7 @@
   var urlUpload = 'https://js.dump.academy/keksobooking';
 
   var getData = function (onSuccess, onError) {
+
     // создает обьект конструктор
     var xhr = new XMLHttpRequest();
 
@@ -43,7 +45,7 @@
         case statusCode.NOT_URL:
           error = 'ошибка в написании ссылки';
           break;
-        case 500:
+        case statusCode.INTERNAL_ERR:
           error = 'ошибка в написании ссылки';
           break;
 
@@ -68,6 +70,7 @@
     });
 
     return xhr;
+
   };
 
   var upload = function (data, onSuccess, onError) {
@@ -82,6 +85,7 @@
     xhr.open('GET', urlData);
     // запускает запрос
     xhr.send();
+
   };
 
   window.backend = {

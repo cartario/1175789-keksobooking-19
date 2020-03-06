@@ -2,6 +2,7 @@
 
 (function () {
 
+
   var map = document.querySelector('.map');
 
   // лимиты рамки
@@ -46,6 +47,26 @@
   // деактивирует инпуты
   setDisActiveMode(true);
 
+  // отрисовывает метки
+  var onSuccess = function (data) {
+
+    // передает данные в функцию активации фильтра
+    window.filter.activateFiltration(data);
+  };
+
+  // будет выводить сообщение ошибок
+  // отрисовывает блок и задает стили и передает в модуль load
+  var onError = function (message) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red; color: white';
+    node.style.position = 'fixed';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+    node.textContent = message;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
   var setActiveMode = function () {
 
     // удаляет класс
@@ -53,22 +74,6 @@
 
     var adForm = document.querySelector('.ad-form');
     adForm.classList.remove('ad-form--disabled');
-
-    // отрисовывает метки
-    var onSuccess = window.pin.renderPinMaps;
-
-    // будет выводить сообщение ошибок
-    // отрисовывает блок и задает стили и передает в модуль load
-    var onError = function (message) {
-      var node = document.createElement('div');
-      node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red; color: white';
-      node.style.position = 'fixed';
-      node.style.left = 0;
-      node.style.right = 0;
-      node.style.fontSize = '30px';
-      node.textContent = message;
-      document.body.insertAdjacentElement('afterbegin', node);
-    };
 
     // связывает отрисовку меток с данными - запускает фун-ю load с параметрами отрисовки карточки
     window.backend.load(onSuccess, onError);
@@ -78,6 +83,11 @@
     var adFormFieldsets = document.querySelectorAll('fieldset');
     for (var i = 0; i < adFormFieldsets.length; i++) {
       adFormFieldsets[i].disabled = false;
+    }
+
+    var mapFilters = document.querySelector('.map__filters').querySelectorAll('select');
+    for (var j = 0; j < mapFilters.length; j++) {
+      mapFilters[j].disabled = false;
     }
 
   };
@@ -194,13 +204,32 @@
 
   });
 
+  // удаляет пины
+  var removePins = function () {
+
+    // для всех меток кроме главной
+    var mapPinsItems = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    for (var j = 0; j < mapPinsItems.length; j++) {
+      mapPinsItems[j].remove();
+    }
+  };
+
+  var removeCard = function () {
+    // если есть, удаляет
+    if (map.querySelector('.map__card')) {
+      map.querySelector('.map__card').remove();
+    }
+  };
+
   window.map = {
     dragLimit: dragLimit,
     getMainPinCoord: getMainPinCoord,
     map: map,
     MainPin: MainPin,
     setDisActiveMode: setDisActiveMode,
-    PIN: PIN
+    PIN: PIN,
+    removePins: removePins,
+    removeCard: removeCard
   };
 
 })();
