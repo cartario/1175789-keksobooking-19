@@ -76,7 +76,7 @@
 
   // фильтрует по типу жилья
   var filtrationByType = function (it) {
-    return it.value === 'any' || typeSelect.value === it.offer.type;
+    return typeSelect.value === 'any' || it.offer.type === typeSelect.value;
   };
 
 
