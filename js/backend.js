@@ -11,6 +11,8 @@
     INTERNAL_ERR: 500
   };
 
+  // create module7-task3
+
   // создает урл
   var urlData = 'https://js.dump.academy/keksobooking/data';
   var urlUpload = 'https://js.dump.academy/keksobooking';
