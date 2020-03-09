@@ -97,12 +97,12 @@
   };
 
   var filtrationByRoom = function (it) {
-    return roomSelect.value === 'any' || it.offer.rooms == roomSelect.value;
+    return roomSelect.value === 'any' || it.offer.rooms.toString() === roomSelect.value;
   };
 
   var filtrationByGuests = function (it) {
 
-    return guestsSelect.value === 'any' || it.offer.guests == guestsSelect.value;
+    return guestsSelect.value === 'any' || it.offer.guests.toString() === guestsSelect.value;
 
   };
 
@@ -136,9 +136,8 @@
     var filteringPrice = PriceRange[priceSelect.value.toUpperCase()];
 
     // сравнивает текущую категорию с ценой
-    if (it.offer.price >= filteringPrice.MIN && it.offer.price <= filteringPrice.MAX) {
-      return it;
-    }
+    return it.offer.price >= filteringPrice.MIN && it.offer.price <= filteringPrice.MAX;
+
 
   };
 
