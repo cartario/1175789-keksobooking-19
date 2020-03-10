@@ -16,6 +16,13 @@
   var timeOutInput = adForm.querySelector('select[name="timeout"]');
   var adFormReset = adForm.querySelector('.ad-form__reset');
 
+  var minPrice = {
+    FLAT: '1000',
+    BUNGALO: '0',
+    HOUSE: '5000',
+    PALACE: '10000'
+  };
+
   // в случае успеха
   var onSuccess = function () {
     window.main.setSuccessMessage();
@@ -40,9 +47,17 @@
     window.backend.upload(new FormData(adForm), onSuccess, onError);
   });
 
+  var setDefaultPrice = function () {
+    // заполняет цену
+    adFormPrice.value = false;
+    adFormPrice.setAttribute('min', minPrice.FLAT);
+    adFormPrice.setAttribute('placeholder', minPrice.FLAT);
+  };
+
 
   var onResetClick = function () {
     adForm.reset();
+    setDefaultPrice();
     window.map.setDisActiveMode(true);
 
     // удаляет, если есть
@@ -54,6 +69,8 @@
     window.main.addressInput.value = '595, 445';
     window.map.MainPin.style.left = 595 - window.map.PIN.WIDTH / 2 + 'px';
     window.map.MainPin.style.top = 445 - window.map.PIN.HEIGHT + 'px';
+
+
   };
 
   adFormReset.addEventListener('click', onResetClick);
@@ -95,23 +112,23 @@
     switch (typeInputValue) {
       case 'flat':
         adFormPrice.value = false;
-        adFormPrice.setAttribute('min', 1000);
-        adFormPrice.setAttribute('placeholder', 1000);
+        adFormPrice.setAttribute('min', minPrice.FLAT);
+        adFormPrice.setAttribute('placeholder', minPrice.FLAT);
         break;
       case 'bungalo':
         adFormPrice.value = false;
-        adFormPrice.setAttribute('min', 0);
-        adFormPrice.setAttribute('placeholder', 0);
+        adFormPrice.setAttribute('min', minPrice.BUNGALO);
+        adFormPrice.setAttribute('placeholder', minPrice.BUNGALO);
         break;
       case 'house':
         adFormPrice.value = false;
-        adFormPrice.setAttribute('min', 5000);
-        adFormPrice.setAttribute('placeholder', 5000);
+        adFormPrice.setAttribute('min', minPrice.HOUSE);
+        adFormPrice.setAttribute('placeholder', minPrice.HOUSE);
         break;
       case 'palace':
         adFormPrice.value = false;
-        adFormPrice.setAttribute('min', 10000);
-        adFormPrice.setAttribute('placeholder', 10000);
+        adFormPrice.setAttribute('min', minPrice.PALACE);
+        adFormPrice.setAttribute('placeholder', minPrice.PALACE);
         break;
     }
   };
@@ -157,10 +174,8 @@
   // слушает изменения в поле тип жилья
   typeInputElement.addEventListener('change', setPriceOfType);
 
-  // заполняет цену
-  adFormPrice.value = false;
-  adFormPrice.setAttribute('min', 1000);
-  adFormPrice.setAttribute('placeholder', 1000);
+  setDefaultPrice();
+
 
   window.form = {
     onResetClick: onResetClick
