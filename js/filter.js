@@ -60,7 +60,9 @@
 
 
     // запускает ф-ю фильтрации по типу выбранного жилья
-    filteredData = filteredData.filter(filtrationByType).filter(filtrationByRoom).filter(filtrationByGuests).filter(filtrationByPrice).filter(filtrationByFeatures);
+    filteredData = filteredData.filter(function (it) {
+      return filtrationByType(it) && filtrationByRoom(it) && filtrationByGuests(it) && filtrationByPrice(it) && filtrationByFeatures(it);
+    });
 
 
     // удаляет отрисованные ранее пины

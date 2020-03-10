@@ -14,8 +14,8 @@
   // create module7-task3
 
   // создает урл
-  var urlData = 'https://js.dump.academy/keksobooking/data';
-  var urlUpload = 'https://js.dump.academy/keksobooking';
+  var URL_LOAD = 'https://js.dump.academy/keksobooking/data';
+  var URL_UPLOAD = 'https://js.dump.academy/keksobooking';
 
   var getData = function (onSuccess, onError) {
 
@@ -77,14 +77,14 @@
 
   var upload = function (data, onSuccess, onError) {
     var xhr = getData(onSuccess, onError);
-    xhr.open('POST', urlUpload);
+    xhr.open('POST', URL_UPLOAD);
     xhr.send(data);
   };
 
   var load = function (onSuccess, onError) {
     var xhr = getData(onSuccess, onError);
     // открывает запрос
-    xhr.open('GET', urlData);
+    xhr.open('GET', URL_LOAD);
     // запускает запрос
     xhr.send();
 
