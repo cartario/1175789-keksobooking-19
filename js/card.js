@@ -59,26 +59,29 @@
     popup.querySelector('.popup__photos').textContent = '';
 
     // добавляет фичи
-    for (var i = 0; i < data.offer.features.length; i++) {
+    data.offer.features.forEach(function (it) {
+
+      // находит строку
       var featuresItem = document.createElement('li');
+
+      // добавляет ее в попап
       popup.querySelector('.popup__features').appendChild(featuresItem);
-      featuresItem.classList.add('feature', 'feature--' + data.offer.features[i]);
-    }
+
+      // добавляет классы
+      featuresItem.classList.add('feature', 'feature--' + it);
+    });
 
     // отрисовка фоток
-    for (var k = 0; k < data.offer.photos.length; k++) {
-
-      // в ней фото
+    data.offer.photos.forEach(function (photo) {
       var image = document.createElement('img');
       // добавляет фото в строку
-
       popup.querySelector('.popup__photos').appendChild(image);
       // присваивает каждой фотке адрес
-      image.src = data.offer.photos[k];
+      image.src = photo;
       // задает размеры картинок
       image.width = 40;
       image.height = 40;
-    }
+    });
 
     // отрисовка фрагмента
     var popupFragment = document.createDocumentFragment();
