@@ -178,7 +178,8 @@
 
 
   window.form = {
-    onResetClick: onResetClick
+    onResetClick: onResetClick,
+    onError: onError
   };
 
 })();

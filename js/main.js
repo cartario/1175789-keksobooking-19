@@ -8,30 +8,46 @@
   addressInput.value = window.map.getMainPinCoord();
   addressInput.setAttribute('readonly', 'readonly');
 
-  var setSuccessMessage = function () {
-    var successTemplate = document.querySelector('#success')
-    .content
-    .querySelector('.success');
-    var successFragment = document.createDocumentFragment();
-    successFragment.appendChild(successTemplate);
-    window.map.map.appendChild(successFragment);
-
+  var messageFragment = function (template) {
+    var fragment = document.createDocumentFragment();
+    fragment.appendChild(template);
+    window.map.map.appendChild(fragment);
     window.form.onResetClick();
+
+  };
+
+  var onCloseMessage = function (template) {
 
     var onEscMessage = function (evt) {
       if (evt.keyCode === ESC_KEYCODE) {
-        successTemplate.remove();
+        template.remove();
         document.removeEventListener('keydown', onEscMessage);
       }
     };
 
     var onEscClick = function () {
-      successTemplate.remove();
+      template.remove();
       document.removeEventListener('click', onEscClick);
     };
 
     document.addEventListener('keydown', onEscMessage);
     document.addEventListener('click', onEscClick);
+
+    var errorButton = document.querySelector('.error__button');
+    if (errorButton) {
+      errorButton.addEventListener('click', onEscClick);
+    }
+
+  };
+
+
+  var setSuccessMessage = function () {
+    var successTemplate = document.querySelector('#success')
+    .content
+    .querySelector('.success');
+
+    messageFragment(successTemplate);
+    onCloseMessage(successTemplate);
   };
 
   var setErrorMessage = function () {
@@ -39,28 +55,11 @@
     .content
     .querySelector('.error');
 
-    var errorButton = errorTemplate.querySelector('.error__button');
-    var errorFragment = document.createDocumentFragment();
-    errorFragment.appendChild(errorTemplate);
-    window.map.map.appendChild(errorFragment);
 
-    window.form.onResetClick();
+    messageFragment(errorTemplate);
+    onCloseMessage(errorTemplate);
 
-    var onEscMessage = function (evt) {
-      if (evt.keyCode === ESC_KEYCODE) {
-        errorTemplate.remove();
-        document.removeEventListener('keydown', onEscMessage);
-      }
-    };
 
-    var onEscClick = function () {
-      errorTemplate.remove();
-      document.removeEventListener('click', onEscClick);
-    };
-
-    document.addEventListener('keydown', onEscMessage);
-    document.addEventListener('click', onEscClick);
-    errorButton.addEventListener('click', onEscClick);
   };
 
   window.main = {

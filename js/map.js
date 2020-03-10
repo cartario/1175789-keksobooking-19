@@ -54,18 +54,6 @@
     window.filter.activateFiltration(data);
   };
 
-  // будет выводить сообщение ошибок
-  // отрисовывает блок и задает стили и передает в модуль load
-  var onError = function (message) {
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red; color: white';
-    node.style.position = 'fixed';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
-    node.textContent = message;
-    document.body.insertAdjacentElement('afterbegin', node);
-  };
 
   var setActiveMode = function () {
 
@@ -76,7 +64,7 @@
     adForm.classList.remove('ad-form--disabled');
 
     // связывает отрисовку меток с данными - запускает фун-ю load с параметрами отрисовки карточки
-    window.backend.load(onSuccess, onError);
+    window.backend.load(onSuccess, window.form.onError);
 
     // // активирует инпуты
 
