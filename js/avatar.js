@@ -9,15 +9,14 @@
   };
 
   var inputAvatar = document.querySelector('.ad-form__field input[type=file]');
-
+  var previewAvatar = document.querySelector('.ad-form-header__preview img');
 
   var inputPhoto = document.querySelector('#images');
-  var previewAvatar = document.querySelector('.ad-form-header__preview img');
-  var previewPhotoImage = document.createElement('img');
-  previewPhotoImage.width = ImageParams.WIDTH;
-  previewPhotoImage.height = ImageParams.HEIGHT;
-  var previewPhoto = document.querySelector('.ad-form__photo').appendChild(previewPhotoImage);
-
+  var previewPhoto = document.querySelector('.ad-form__photo');
+  var photoList = document.createElement('ul');
+  previewPhoto.appendChild(photoList);
+  photoList.style.margin = 0;
+  photoList.style.padding = 0;
 
   inputAvatar.setAttribute('accept', 'image/png, image/jpeg');
   inputPhoto.setAttribute('accept', 'image/png, image/jpeg');
@@ -51,7 +50,15 @@
   };
 
   var onChangePhoto = function () {
+    // каждый раз создает картинку и добавляет ее в список
+    var image = document.createElement('img');
+    image.width = ImageParams.WIDTH;
+    image.height = ImageParams.HEIGHT;
+
+    photoList.appendChild(image);
+
     var file = inputPhoto.files[0];
+
     var fileName = file.name.toLowerCase();
 
     // соответствие
@@ -60,10 +67,12 @@
     });
 
     if (matches) {
-      createReader(previewPhoto, file);
+      // присваивает картинке адрес
+      createReader(image, file);
     }
 
-    inputPhoto.removeEventListener('change', onChangePhoto);
+
+    // inputPhoto.removeEventListener('change', onChangePhoto);
   };
 
   var loadPic = function (input, func) {
